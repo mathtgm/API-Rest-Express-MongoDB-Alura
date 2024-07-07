@@ -1,0 +1,11 @@
+services:
+  alura-express-nodejs:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - '.:/home/node/app'
+    stdin_open: true 
+    tty: true
