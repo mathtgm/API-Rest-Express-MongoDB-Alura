@@ -3,7 +3,7 @@ import { autor } from "../models/Autor.js";
 
 class LivroController {
 
-  static async listarLivros (req, res) {
+  static listarLivros = async (req, res) => {
     try {
       const listaLivros = await livro.find({});
       res.status(200).json(listaLivros);    
@@ -22,7 +22,7 @@ class LivroController {
   //     }
   // };
 
-  static async listarLivroId (req, res) {
+  static listarLivroId = async (req, res) => {
     try {
       const id = req.params.id
       const livro = await livro.findById(id);
@@ -33,7 +33,7 @@ class LivroController {
         
   }
 
-  static async atualizarLivro(req, res) {
+  static atualizarLivro = async (req, res) => {
     try {
       const id = req.params.id
       await livro.findByIdAndUpdate(id, req.body);
@@ -43,7 +43,7 @@ class LivroController {
     }
   }
 
-  static async cadastrarLivro(req, res) {
+  static cadastrarLivro = async (req, res) => {
     const novoLivro = req.body;
     try {
       const autorEncontrado = await autor.findById(novoLivro.autor);
@@ -58,7 +58,7 @@ class LivroController {
         
   }
 
-  static async excluirLivro(req, res) {
+  static excluirLivro = async (req, res) => {
     try {
       const id = req.params.id;
       await livro.findByIdAndDelete(id);
@@ -70,7 +70,7 @@ class LivroController {
     }
   }
 
-  static async listarLivrosEditora(req, res) {
+  static listarLivrosEditora = async (req, res) => {
     const editoraQuery = req.query.editora;
     try {
       const listaLivros = await livro.find({editora: editoraQuery});
