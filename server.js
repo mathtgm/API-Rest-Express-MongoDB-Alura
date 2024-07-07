@@ -16,7 +16,7 @@ const PORT = 3000;
 // });
  
 app.listen(PORT, () => {
-    console.log("----------------------------------------------------")
-    console.log(`Servidor iniciado na porta http://localhost:${PORT}`);
-    console.log("----------------------------------------------------")
+  console.log("----------------------------------------------------")
+  console.log(`Servidor iniciado na porta http://localhost:${PORT}`);
+  console.log("----------------------------------------------------")
 });
