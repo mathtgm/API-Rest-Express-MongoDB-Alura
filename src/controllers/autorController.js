@@ -1,5 +1,5 @@
 import NaoEncontrado from "../erros/naoEncontrado.js";
-import { autores } from "../models/Autor.js";
+import { autores } from "../models/index.js";
 
 class AutorController {
   static listarAutores = async (req, res, next) => {
@@ -72,7 +72,7 @@ class AutorController {
       let autor = await autores.findById(idAutor);
 
       if(!autor) {
-        throw new NaoEncontrado("Autor(a) não encontrado");
+        next(new NaoEncontrado("Autor(a) não encontrado"));
       }
   }
 }
