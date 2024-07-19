@@ -96,7 +96,9 @@ async function processaBusca(parametros) {
 
   if (editora) busca.editora = editora;
 
-  if (titulo) busca.titulo = titulo;
+  if (titulo) busca.titulo = { $regex: titulo, $options: "i" };
+
+  if (minPaginas || maxPaginas) busca.numeroPaginas = {};
 
   // GTE Greater Than or Equal (Maior ou igual)
   if (minPaginas) busca.numeroPagina.$gte = minPaginas;
