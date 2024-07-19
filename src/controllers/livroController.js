@@ -1,4 +1,4 @@
-import { livros } from "../models/index.js";
+import { livros, autores } from "../models/index.js";
 
 class LivroController {
 
@@ -43,10 +43,10 @@ class LivroController {
   static atualizarLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
-    
-      await livros.findByIdAndUpdate(id, {$set: req.body});
-    
-      res.status(200).send({message: "Livro atualizado com sucesso"});
+
+      await livros.findByIdAndUpdate(id, { $set: req.body });
+
+      res.status(200).send({ message: "Livro atualizado com sucesso" });
     } catch (erro) {
       next(erro);
     }
@@ -58,23 +58,67 @@ class LivroController {
 
       await livros.findByIdAndDelete(id);
 
-      res.status(200).send({message: "Livro removido com sucesso"});
+      res.status(200).send({ message: "Livro removido com sucesso" });
     } catch (erro) {
       next(erro);
     }
   };
 
-  static listarLivroPorEditora = async (req, res, next) => {
+  static listarLivroPorFiltro = async (req, res, next) => {
     try {
-      const editora = req.query.editora;
-      
-      const livrosResultado = await livros.find({"editora": editora});
+      const busca = await processaBusca(req.query);
 
-      res.status(200).send(livrosResultado);
+      if(busca !== null) {
+        
+        const livrosResultado = await livros.find(busca);
+        
+        res.status(200).send(livrosResultado);
+      } else {
+
+        res.status(200).send([]);
+        
+      }
+
     } catch (erro) {
       next(erro);
     }
   };
+
+
+
+}
+
+async function processaBusca(parametros) {
+  const { editora, titulo, minPaginas, maxPaginas, nomeAutor } = parametros;
+
+  let busca = {};
+
+  if (editora) busca.editora = editora;
+
+  if (titulo) busca.titulo = titulo;
+
+  // GTE Greater Than or Equal (Maior ou igual)
+  if (minPaginas) busca.numeroPagina.$gte = minPaginas;
+  //LTE LESS Than or Equal (Menor ou igual)
+  if (maxPaginas) busca.numeroPagina.$lte = maxPaginas;
+
+  if (nomeAutor) {
+    const autor = await autores.findOne({ nome: nomeAutor });
+
+    if(autor !== null) {
+
+      busca.autor = autor._id;
+      
+    } else { 
+
+      busca = null;
+
+    }
+
+  }
+
+  return busca;
+
 }
 
 export default LivroController;

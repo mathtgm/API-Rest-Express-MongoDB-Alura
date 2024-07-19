@@ -25,9 +25,9 @@ const livroSchema = new mongoose.Schema({
   autor: { type: mongoose.Schema.Types.ObjectId, ref: 'autores', required: [true,"O autor(a) é obrigatório"]}
   }, {versionKey: false});
 
-const livro = mongoose.model("livros", livroSchema);
+const livros = mongoose.model("livros", livroSchema);
 
-export default livro;
+export default livros;
 
 // const livroSchema = new mongoose.Schema({
 //     id: { type: mongoose.Schema.Types.ObjectId },
